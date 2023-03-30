@@ -1,36 +1,44 @@
-name: Deploy
+name: Vite Vue Deploy
+
 on:
-  workflow_dispatch: {}
   push:
-    branches:
-      - main
+    # master 分支有 push 时触发
+    branches: [main]
+
 jobs:
   deploy:
+    # 指定虚拟机环境
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: https://15527514041.github.io/design/
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        # 拉取 GitHub 仓库代码
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        # 设定 Node.js 环境
+        uses: actions/setup-node@v3
         with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: npm
-      - name: Install dependencies
-        run: npm ci
-        env: 
-          NODE_AUTH_TOKEN: ${{ secrets.VITE_VUE_DEPLOY }}
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install
+        # 安装依赖
+        run: npm install
+
       - name: Build
+        # 打包
         run: npm run build
-      - uses: actions/configure-pages@v2
-      - uses: actions/upload-pages-artifact@v1
-        with:
-          path: dist
+
       - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v1
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # 部署打包目录
+          folder: dist
+          # 密钥名
+          token: ${{ secrets.VITE_VUE_DEPLOY }}
+          # 分支
+          branch: gh-pages
