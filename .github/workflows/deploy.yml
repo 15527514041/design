@@ -12,7 +12,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://15527514041.github.io/cute/
+      url: https://15527514041.github.io/design/
     steps:
       - uses: actions/checkout@v3
         with:
