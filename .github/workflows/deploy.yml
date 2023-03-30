@@ -12,7 +12,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://15527514041.github.io/cute/
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/configure-pages@v2
       - uses: actions/upload-pages-artifact@v1
         with:
-          path: docs/.vitepress/dist
+          path: dist
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v1
