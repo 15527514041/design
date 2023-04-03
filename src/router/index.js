@@ -5,7 +5,7 @@ import baseRouters from './modules/base'
 const routes = [...baseRouters]
 
 const router = createRouter({
-  history: createWebHistory('/design'),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes,
   scrollBehavior() {
     return {
