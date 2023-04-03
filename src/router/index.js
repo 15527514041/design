@@ -5,7 +5,7 @@ import baseRouters from './modules/base'
 const routes = [...baseRouters]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory('/design'),
   routes,
   scrollBehavior() {
     return {
